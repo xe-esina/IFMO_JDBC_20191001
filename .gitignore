@@ -1,2 +1,8 @@
 # Project exclude paths
 /.gradle/
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen

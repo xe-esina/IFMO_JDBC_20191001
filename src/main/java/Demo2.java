@@ -8,6 +8,9 @@ import java.sql.Statement;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * A bit advanced query
+ */
 public class Demo2 {
 
     // JDBC driver name and database URL
@@ -36,18 +39,23 @@ public class Demo2 {
 
             stmt = conn.createStatement();
             String sql;
-            sql = "SELECT id, firstname, lastname, salary FROM Employee";
+            sql = "SELECT emp.id, firstname, lastname, salary, d.name as depname " +
+                    "FROM EMPLOYEE emp " +
+                    "LEFT JOIN DEPARTMENT d on emp.DEPARTMENT = d.ID " +
+                    "order by SALARY desc";
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String first = rs.getString("firstname");
                 String last = rs.getString("lastname");
-                int salary = rs.getInt("salary");
+                String dep = rs.getString("depname");
+                double salary = rs.getDouble("salary");
 
                 System.out.print("ID: " + id);
                 System.out.print(", First: " + first);
                 System.out.print(", Last: " + last);
+                System.out.print(", Dep: " + dep);
                 System.out.println(", Salary: " + salary);
             }
             rs.close();

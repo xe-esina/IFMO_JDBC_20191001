@@ -8,5 +8,6 @@
   "position" : "PRESIDENT",
   "hired" : "1981-11-17",
   "salary" : 5000.00000,
-  "manager" : null
+  "managerId" : 0,
+  "departmentId" : 0
 }

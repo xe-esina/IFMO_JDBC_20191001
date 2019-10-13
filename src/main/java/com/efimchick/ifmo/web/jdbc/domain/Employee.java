@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -24,18 +25,21 @@ public class Employee {
     private final Position position;
     private final LocalDate hired;
     private final BigDecimal salary;
+    private final Employee manager;
 
     @JsonCreator
     public Employee(@JsonProperty("id") final BigInteger id,
                     @JsonProperty("fullName") final FullName fullName,
                     @JsonProperty("position") final Position position,
                     @JsonProperty("hired") final LocalDate hired,
-                    @JsonProperty("salary") final BigDecimal salary) {
+                    @JsonProperty("salary") final BigDecimal salary,
+                    @JsonProperty("manager") final Employee manager) {
         this.id = id;
         this.fullName = fullName;
         this.position = position;
         this.hired = hired;
         this.salary = salary.setScale(5, RoundingMode.HALF_UP);
+        this.manager = manager;
     }
 
     public BigInteger getId() {
@@ -58,6 +62,10 @@ public class Employee {
         return salary;
     }
 
+    public Employee getManager() {
+        return manager;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
@@ -67,12 +75,13 @@ public class Employee {
                 Objects.equal(fullName, employee.fullName) &&
                 position == employee.position &&
                 Objects.equal(hired, employee.hired) &&
-                Objects.equal(salary, employee.salary);
+                Objects.equal(salary, employee.salary) &&
+                Objects.equal(manager, employee.manager);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id, fullName, position, hired, salary);
+        return Objects.hashCode(id, fullName, position, hired, salary, manager);
     }
 
     @Override
@@ -83,6 +92,7 @@ public class Employee {
                 .add("position", position)
                 .add("hired", hired)
                 .add("salary", salary)
+                .add("manager", manager)
                 .toString();
     }
 
@@ -92,6 +102,7 @@ public class Employee {
             mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
             mapper.registerModule(new JavaTimeModule());
             mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+            mapper.configure(DeserializationFeature.FAIL_ON_MISSING_CREATOR_PROPERTIES, false);
         }
 
         public static String toJson(Employee employee){

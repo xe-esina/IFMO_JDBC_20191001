@@ -21,7 +21,7 @@ import org.junit.Test;
 
 import com.efimchick.ifmo.web.jdbc.domain.Employee;
 
-public class RowMapperTest {
+public class SetMapperTest {
 
     private static ConnectionSource connectionSource;
 
@@ -59,7 +59,7 @@ public class RowMapperTest {
     }
 
     private void testSqlQueryWithRelatedEmployeeSet(final String s, final String s2) throws SQLException, IOException {
-        final RowMapper<Set<Employee>> employeeRowMapper = new RowMapperFactory().employeesRowMapper();
+        final SetMapper<Set<Employee>> employeeSetMapper = new SetMapperFactory().employeesSetMapper();
 
         try (final Connection conn = connectionSource.createConnection();
              final Statement statement = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -71,7 +71,7 @@ public class RowMapperTest {
                     .map(this::employeeFrom)
                     .collect(Collectors.toSet());
 
-            Set<Employee> actual = employeeRowMapper.mapRow(rs);
+            Set<Employee> actual = employeeSetMapper.mapSet(rs);
 
             assertEquals(
                     expected,

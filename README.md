@@ -1,10 +1,11 @@
 # IFMO_JDBC_20191001
 [![from_flaxo with_♥](https://img.shields.io/badge/from_flaxo-with_♥-blue.svg)](https://github.com/tcibinan/flaxo)
 
-## Task-2
-Implement `RowMapperFactory.employeeRowMapper` method.
+## Task-3
+Implement `SetMapperFactory.employeesSetMapper` method.
 
-It should return a RowMapper instance that maps current row of result set to an `Employee` instance.
-   
-It should not perform any cursor moving.
+It should return a SetMapper instance that maps whole result set to a set of `Employee` instances.
+
+It should perform cursor moving in order to get all Employee instances.
+If an Employee has a Manager it should contain it as Employee instance as well.  
  

@@ -15,6 +15,13 @@ repositories {
 
 dependencies {
 
+    compile 'com.fasterxml.jackson.core:jackson-core:2.9.9'
+    compile 'com.fasterxml.jackson.core:jackson-annotations:2.9.9'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.9.9'
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.9'
+
+    compile 'commons-io:commons-io:2.5'
+
     compile 'com.google.guava:guava:23.0'
     compile group: 'org.hsqldb', name: 'hsqldb', version: '2.5.0'
 

@@ -25,7 +25,8 @@ public class Employee {
     private final Position position;
     private final LocalDate hired;
     private final BigDecimal salary;
-    private final Employee manager;
+    private final BigInteger managerId;
+    private final BigInteger departmentId;
 
     @JsonCreator
     public Employee(@JsonProperty("id") final BigInteger id,
@@ -33,13 +34,15 @@ public class Employee {
                     @JsonProperty("position") final Position position,
                     @JsonProperty("hired") final LocalDate hired,
                     @JsonProperty("salary") final BigDecimal salary,
-                    @JsonProperty("manager") final Employee manager) {
+                    @JsonProperty("managerId") final BigInteger managerId,
+                    @JsonProperty("departmentId") final BigInteger departmentId) {
         this.id = id;
         this.fullName = fullName;
         this.position = position;
         this.hired = hired;
         this.salary = salary.setScale(5, RoundingMode.HALF_UP);
-        this.manager = manager;
+        this.managerId = managerId;
+        this.departmentId = departmentId;
     }
 
     public BigInteger getId() {
@@ -62,8 +65,12 @@ public class Employee {
         return salary;
     }
 
-    public Employee getManager() {
-        return manager;
+    public BigInteger getManagerId() {
+        return managerId;
+    }
+
+    public BigInteger getDepartmentId() {
+        return departmentId;
     }
 
     @Override
@@ -76,12 +83,13 @@ public class Employee {
                 position == employee.position &&
                 Objects.equal(hired, employee.hired) &&
                 Objects.equal(salary, employee.salary) &&
-                Objects.equal(manager, employee.manager);
+                Objects.equal(managerId, employee.managerId) &&
+                Objects.equal(departmentId, employee.departmentId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id, fullName, position, hired, salary, manager);
+        return Objects.hashCode(id, fullName, position, hired, salary, managerId, departmentId);
     }
 
     @Override
@@ -92,7 +100,8 @@ public class Employee {
                 .add("position", position)
                 .add("hired", hired)
                 .add("salary", salary)
-                .add("manager", manager)
+                .add("managerId", managerId)
+                .add("departmentId", departmentId)
                 .toString();
     }
 

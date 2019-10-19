@@ -1,7 +1,7 @@
 # IFMO_JDBC_20191001
 [![from_flaxo with_♥](https://img.shields.io/badge/from_flaxo-with_♥-blue.svg)](https://github.com/tcibinan/flaxo)
 
-## Task-3
+## task-3 Employees full set mapper
 Implement `SetMapperFactory.employeesSetMapper` method.
 
 It should return a SetMapper instance that maps whole result set to a set of `Employee` instances.

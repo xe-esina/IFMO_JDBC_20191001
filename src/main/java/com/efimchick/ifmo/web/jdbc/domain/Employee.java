@@ -25,8 +25,8 @@ public class Employee {
     private final Position position;
     private final LocalDate hired;
     private final BigDecimal salary;
-    private final BigInteger managerId;
-    private final BigInteger departmentId;
+    private final Employee manager;
+    private final Department department;
 
     @JsonCreator
     public Employee(@JsonProperty("id") final BigInteger id,
@@ -34,15 +34,15 @@ public class Employee {
                     @JsonProperty("position") final Position position,
                     @JsonProperty("hired") final LocalDate hired,
                     @JsonProperty("salary") final BigDecimal salary,
-                    @JsonProperty("managerId") final BigInteger managerId,
-                    @JsonProperty("departmentId") final BigInteger departmentId) {
+                    @JsonProperty("manager") final Employee manager,
+                    @JsonProperty("department") final Department department) {
         this.id = id;
         this.fullName = fullName;
         this.position = position;
         this.hired = hired;
         this.salary = salary.setScale(5, RoundingMode.HALF_UP);
-        this.managerId = managerId;
-        this.departmentId = departmentId;
+        this.manager = manager;
+        this.department = department;
     }
 
     public BigInteger getId() {
@@ -65,12 +65,12 @@ public class Employee {
         return salary;
     }
 
-    public BigInteger getManagerId() {
-        return managerId;
+    public Employee getManager() {
+        return manager;
     }
 
-    public BigInteger getDepartmentId() {
-        return departmentId;
+    public Department getDepartment() {
+        return department;
     }
 
     @Override
@@ -83,13 +83,13 @@ public class Employee {
                 position == employee.position &&
                 Objects.equal(hired, employee.hired) &&
                 Objects.equal(salary, employee.salary) &&
-                Objects.equal(managerId, employee.managerId) &&
-                Objects.equal(departmentId, employee.departmentId);
+                Objects.equal(manager, employee.manager) &&
+                Objects.equal(department, employee.department);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id, fullName, position, hired, salary, managerId, departmentId);
+        return Objects.hashCode(id, fullName, position, hired, salary, manager, department);
     }
 
     @Override
@@ -100,13 +100,14 @@ public class Employee {
                 .add("position", position)
                 .add("hired", hired)
                 .add("salary", salary)
-                .add("managerId", managerId)
-                .add("departmentId", departmentId)
+                .add("manager", manager)
+                .add("department", department)
                 .toString();
     }
 
     public static class Parser {
         private static ObjectMapper mapper = new ObjectMapper();
+
         static {
             mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
             mapper.registerModule(new JavaTimeModule());
@@ -114,7 +115,7 @@ public class Employee {
             mapper.configure(DeserializationFeature.FAIL_ON_MISSING_CREATOR_PROPERTIES, false);
         }
 
-        public static String toJson(Employee employee){
+        public static String toJson(Employee employee) {
             try {
                 final StringWriter writer = new StringWriter();
                 mapper.writeValue(writer, employee);
@@ -124,7 +125,7 @@ public class Employee {
             }
         }
 
-        public static Employee parseJson(String json){
+        public static Employee parseJson(String json) {
             try {
                 return mapper.readValue(json, Employee.class);
             } catch (IOException exc) {

@@ -12,5 +12,34 @@ So one may consider a Employee Service you need to implement to be really a Repo
 
 Anyway, you should implement EmployeeService  interface.
 
+Important: Usually you have to provide an employee as an object of Employee class, having injected Department object and injected Employee object referencing to his manager.
+Object of a manager should be having injected Department as well, but his own manager should not be injected.
+Trying to show it in graphical way:
+```
+employee
+ |-department
+ |-manager
+    |-department
+```
+Though, implementation of `getWithDepartmentAndFullManagerChain` method requires extracting of an employee with full management chain 
+meaning that it should have a manager who should have a manager who should have a manager and so on until top manager is reached.
+So, it will look like:
+```
+employee
+    |-department
+    |-manager
+        |-department
+        |-manager
+            |-department
+            |-manager
+                |-department
+                |-manager
+                    |-department
+                    |-manager
+                        ...
+```
+ 
+
+
 P.S. You may not alter domain classes or anything from test, just a reminder.  
  

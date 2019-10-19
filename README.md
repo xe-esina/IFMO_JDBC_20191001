@@ -17,9 +17,9 @@ Object of a manager should be having injected Department as well, but his own ma
 Trying to show it in graphical way:
 ```
 employee
- |-department
- |-manager
     |-department
+    |-manager
+        |-department
 ```
 Though, implementation of `getWithDepartmentAndFullManagerChain` method requires extracting of an employee with full management chain 
 meaning that it should have a manager who should have a manager who should have a manager and so on until top manager is reached.
